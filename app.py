@@ -534,23 +534,20 @@ def render_dashboard():
     }
 
     juna_html = f"<span style='color:#aaa; font-size:17px;'>Asema: <b>{valittu}</b></span><br><br>"
-
     if junat and junat[0].get("train") != "API-virhe":
         for j in junat:
             pohjoinen = j["origin"] in ["Rovaniemi", "Kolari", "Kemi", "Oulu", "Kajaani", "Iisalmi", "Ylivieska"]
             merkki = "❄️" if pohjoinen else ""
-            
-            # Turvalliset muuttujat ennen f-stringiä
-            j_time = j['time']
-            j_train = j['train']
-            j_origin = j['origin']
-            j_delay = j['delay']
-            
-            delay_str = f"<span class='badge-red'>+{j_delay} min</span>" if j_delay > 0 else "<span class='badge-green'>Aikataulussa</span>"
+            delay_str = f"<span class='badge-red'>+{j['delay']} min</span>" if j['delay'] > 0 else "<span class='badge-green'>Aikataulussa</span>"
             juna_html += (
-                f"<b>{j_time}</b> {j_train} "
-                f"<span style='color:#aaa;'>(lähtö: {j_origin} {merkki})</span> "
+                f"<b>{j['time']}</b> {j['train']} "
+                f"<span style='color:#aaa;'>(lähtö: {j['origin']} {merkki})</span> "
                 f"{delay_str}<br><br>"
             )
     else:
-        virhe_origin = junat[0].get('
+        if junat and junat[0].get("train") == "API-virhe":
+            virhe_origin = junat[0].get('origin', '')
+            juna_html += f"<span style='color:#ff9999;'>⚠️ {virhe_origin}</span>"
+        else:
+            juna_html += "Ei saapuvia kaukojunia lähiaikoina."
+
