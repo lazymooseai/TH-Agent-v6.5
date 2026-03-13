@@ -529,5 +529,6 @@ def render_dashboard():
         st.session_state.valittu_asema = "Helsinki"
     if c2.button("Pasila (PSL)", use_container_width=True):
         st.session_state.valittu_asema = "Pasila"
-    if c3.button("Tikkurila (TKL)", use_container_width=True):
-        st.session_state.valittu_asema = "T
+        if c3.button("Tikkurila (TKL)", use_container_width=True):
+        st.session_state.valittu_asema = "Tikkurila"
+
